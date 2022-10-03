@@ -1,13 +1,15 @@
 
-# banner warning about word forced closed
+# old banner warnings about word forced closed
 
 <#
-$consoleWdth = $Host.UI.RawUI.BufferSize.Width-1
-$blankLine = " "
-for ($spc=0;$spc -lt $consoleWdth;$spc++) {
-    $blankLine += " "
-}
+Write-Host "`nPlease note, Word will be forced closed. Please save and/or close documents."
+Write-Host "PDF's Will be saved to your Desktop folder"
+Write-Host "`nPress any key to continue...`n"
+#>
 
+#--->
+
+<#
 $bannerMessage = (" " * 4) + @"
 Please note, Word will be forced closed. Please save and/or close documents. PDF's Will be saved to your Desktop folder
 "@
@@ -15,6 +17,32 @@ $bannerMessageWidth = $bannerMessage.Length-1
 for ($spc = 0; $spc -lt ($consoleWdth-$bannerMessageWidth); $spc++) {
     $bannerMessage += " "
 }
+
+Write-Host $blankLine
+Write-Host $blankLine
+Write-Host $bannerMessage
+Write-Host $blankLine
+Write-Host $blankLine
+#>
+
+# old banner warning about word forced closed
+
+$consoleWdth = $Host.UI.RawUI.BufferSize.Width-1
+$blankLine = " "
+for ($spc=0;$spc -lt $consoleWdth;$spc++) {
+    $blankLine += " "
+}
+$pacer = (" " * 4)
+
+$allBannerLines = @(
+    $blankLine,
+    $blankLine,
+    ($pacer + "Please note, Word will be forced closed."),
+    ($pacer + "Please save and/or close documents."),
+    ($pacer + "PDF's Will be saved to your Desktop folder."),
+    $blankLine,
+    $blankLine
+)
 
 Clear-Host
 
@@ -27,23 +55,19 @@ $defaultForeground = $Host.UI.RawUI.ForegroundColor
 $Host.UI.RawUI.BackgroundColor = "DarkCyan"
 $Host.UI.RawUI.ForegroundColor = "Yellow"
 
-Write-Host $blankLine
-Write-Host $blankLine
-Write-Host $bannerMessage
-Write-Host $blankLine
-Write-Host $blankLine
+foreach ($bannerLine in $allBannerLines) {
+    #$bannerLine = (" " * 4) + $bannerLine
+    $bannerLineWidth = $bannerLine.Length-1
+    for ($spc = 0; $spc -lt ($consoleWdth-$bannerLineWidth); $spc++) {
+        $bannerLine += " "
+    }
+    Write-Host $bannerLine
+}
 
 $Host.UI.RawUI.BackgroundColor = $defaultBackground
 $Host.UI.RawUI.ForegroundColor = $defaultForeground
-#>
-
-Write-Host "`nPlease note, Word will be forced closed. Please save and/or close documents."
-Write-Host "PDF's Will be saved to your Desktop folder"
-Write-Host "`nPress any key to continue...`n"
 
 $host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown") | Out-Null
-
-
 
 ###--->
 
